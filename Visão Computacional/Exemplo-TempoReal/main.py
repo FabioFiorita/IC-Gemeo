@@ -74,7 +74,7 @@ def detectShape():
         c = c.astype("int")
         cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
         cv2.putText(image, shape, (cX, cY), cv2.FONT_HERSHEY_SIMPLEX,
-            0.5, (255, 255, 255), 2)
+            0.5, (0, 0, 0), 2)
 
         # show the output image
         cv2.imshow("Image", image)
@@ -108,5 +108,6 @@ def moveSquare():
         robot.MoveJ(RL.Item(targetName))
     robot.MoveJ(RL.Item("Square 1"))
 
-shape = detectShape()
-moveRobot(shape)
+for i in range(2):
+    shape = detectShape()
+    moveRobot(shape)
