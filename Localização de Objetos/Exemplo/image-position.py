@@ -4,11 +4,11 @@ import cv2
 path = 'Localização de Objetos/Exemplo/bancada1.png'
 
 def getElements(image):
-    imgHSV = cv2.cvtColor(resizedImg, cv2.COLOR_BGR2HSV)
+    imgHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     lower = np.array([32, 0, 0])
     upper = np.array([145, 255, 255])
     mask = cv2.inRange(imgHSV, lower, upper)
-    imgResult = cv2.bitwise_and(resizedImg, resizedImg, mask=mask)
+    imgResult = cv2.bitwise_and(image, image, mask=mask)
     return imgResult
 
 def showImages(images):
@@ -32,12 +32,12 @@ def getPosition(image):
             cv2.drawContours(img, [c], -1, (0,255,0), 3)
             cv2.circle(img, (cx, cy), 5, (0,0,255), -1)
             cv2.putText(img, f"{cx, cy}", (cx - 20, cy - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2)
-            print(cx, cy)
-    return img
-
+            centers.append((cx, cy))
+    return img, centers
 
 img = cv2.imread(path)
 resizedImg = cv2.resize(img, (640, 480))
 maskedImage = getElements(resizedImg)
-contoursImage = getPosition(maskedImage)
-showImages([resizedImg, maskedImage, contoursImage])
+contoursImage, centers = getPosition(maskedImage)
+print(centers)
+showImages([img, maskedImage, contoursImage])
