@@ -1,0 +1,44 @@
+from tkinter import *
+from image_position import *
+
+
+def interface():
+    centers = getPosition()
+
+    master = Tk()
+    master.geometry("400x400")
+    master.title("Localização de Objetos")
+    master.eval('tk::PlaceWindow . center')
+
+
+    t = Text(master, height=10, width=10)
+    for x in centers:
+        t.insert(END, x)
+        t.insert(END, "\n")
+    t.pack()
+
+    indexes = []
+    j = 0
+    for _ in centers:
+        indexes.append(j)
+        j += 1
+    
+    variable = StringVar(master)
+    variable.set(indexes[0])
+
+    w = OptionMenu(master, variable, *indexes)
+    w.pack()
+
+
+    def ok():
+        result = variable.get()
+        print ("value is: " + result)
+        print(centers[int(result)])
+        return centers[int(result)]
+
+    button = Button(master, text="OK", command=ok)
+    button.pack()
+
+    mainloop()
+    
+    return
